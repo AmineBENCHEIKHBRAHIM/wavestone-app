@@ -1,8 +1,4 @@
 <?php 
-
-
-
-
 //echo 'Hello, World!'; echo 'from second pc';
 
 /*if (strpos(getenv('SERVER_SOFTWARE'), 'Development') === 0){
@@ -74,22 +70,27 @@ for (i in elements) {
 </script>
 -->
 
+
+
+
+
+
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Input from UI Design</title>
+	<title>Wavestone-app</title>
 	<link type="text/css" rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
 	<div class="box">
 		<h2>Login</h2>
-		<form>
+		<form id='login' action='/controllers/action_login.php' method='post'>
 			<div class="inputBox">
-				<input type="text" name="" required="">
+				<input type="text" name="username" required="">
 				<label>Username</label>
 			</div>
 			<div class="inputBox">
-				<input type="password" name="" required="">
+				<input type="password" name="password" required="">
 				<label>Password</label>
 			</div>
 			<input type="submit" name="" value="submit">
