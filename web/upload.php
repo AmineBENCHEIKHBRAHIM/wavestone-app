@@ -15,10 +15,9 @@
     <p><input type="submit" name="submit" value="Upload">
 </form>
 
-<div id="file-list-display">
+<div id="file-list-display"></div>
+<div id="upload-response"></div>
 
-
-</div>
 <script src="js/upload.js"></script>
 
 </body>
