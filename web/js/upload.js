@@ -47,7 +47,7 @@
 	  }
 	  var reader = new FileReader();
 	  reader.onload = function(e){
-		  window.alert('successfully read');
+		  //window.alert('successfully read');
 		  var arraybuffer = e.target.result;
 		  
 		  
@@ -193,7 +193,7 @@
 			        }
 			        xmlhttp.onreadystatechange = function() {
 			            if (this.readyState == 4 && this.status == 200) {
-			                document.getElementById("upload-response").innerHTML = this.responseText;
+			                document.getElementById("upload-response").innerHTML += this.responseText +"<br>";
 			            }
 			        };
 			        xmlhttp.open("POST","Ajax/consultant_file_update.php");
