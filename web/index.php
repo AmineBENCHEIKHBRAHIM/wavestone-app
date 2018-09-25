@@ -79,7 +79,7 @@ for (i in elements) {
 <head>
 	<meta charset="utf-8">
 	<title>Wavestone-app</title>
-	<link type="text/css" rel="stylesheet" href="/stylesheets/style.css">
+	<link type="text/css" rel="stylesheet" href="/stylesheets/style_index.css">
 </head>
 <body>
 	<div class="box">

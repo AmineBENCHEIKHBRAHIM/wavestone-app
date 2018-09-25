@@ -9,8 +9,102 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 -->
+
+<!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
+
+<!--  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/addons/datatables.min.css" rel="stylesheet">-->
+<!-- MDBootstrap Datatables  -->
+<link href="stylesheets/datatables.min.css" rel="stylesheet">
+
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+
+<!-- MDBootstrap Datatables  -->
+<script type="text/javascript" src="js/datatables.min.js"></script>
+
+
 </head>
 <body>
+
+
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark purple darken-4">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="#">Menu</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="dashboard.php">Dashboard
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="upload.php">Upload</a>
+            </li>
+
+            <!-- Dropdown -->
+            <!--  
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            -->
+        </ul>
+
+			<span class="navbar-text white-text">
+            Administrator
+        	</span>
+        
+        <!-- Links -->
+<!--  
+        <form class="form-inline">
+            <div class="md-form my-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            </div>
+        </form>
+-->
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->
+
+
+
+
+
+
+
+
 
 <!--  
 <script type="text/javascript">
@@ -26,10 +120,54 @@ $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 
 $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
 ?>
 
+<div class="container">
 
 
-<h3>Global Dashboard of available consultants</h3>
 
+<br>
+<p class="text-center">Global Dashboard of available consultants</p>
+
+<script type="text/javascript">
+$(document).ready(function () {
+	  $('#dtBasicExample').DataTable();
+	  $('.dataTables_length').addClass('bs-select');
+	});
+</script>
+
+<!-- Search form -->
+<div class="md-form active-purple active-purple-2 mb-3">
+    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+</div>
+
+<table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th class="th-sm">Grade
+        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      </th>
+      <th class="th-sm">Consultant
+        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      </th>
+      <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F')); ?>
+        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      </th>
+      <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+1, 1))); ?>
+        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      </th>
+      <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+2, 1))); ?>
+        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      </th>
+      <th class="th-sm">Pistes de mission
+        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+
+
+<!-- 
 <table id="table_id" class="display">
     <thead>
         <tr>
@@ -42,7 +180,7 @@ $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Ju
         </tr>
     </thead>
     <tbody>
-
+ -->
 
 <?php 
 
@@ -109,6 +247,12 @@ while ($row = mysql_fetch_assoc($result)) {
         
     </tbody>
 </table>
+
+
+
+</div>
+
+
 
 </body>
 </html>
