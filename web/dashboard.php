@@ -129,7 +129,8 @@ $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Ju
 
 <script type="text/javascript">
 $(document).ready(function () {
-	  $('#dtBasicExample').DataTable();
+	  $('#dtBasicExample').DataTable({
+		  "ordering": false});
 	  $('.dataTables_length').addClass('bs-select');
 	});
 </script>
