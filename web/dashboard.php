@@ -10,6 +10,7 @@
 
 -->
 
+
 <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Bootstrap core CSS -->
@@ -21,7 +22,7 @@
 <!-- MDBootstrap Datatables  -->
 <link href="stylesheets/datatables.min.css" rel="stylesheet">
 
-
+<link href="stylesheets/toggle.css" rel="stylesheet" />
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -36,9 +37,9 @@
 <script type="text/javascript" src="js/datatables.min.js"></script>
 
 
+    
 </head>
 <body>
-
 
 
 <!--Navbar-->
@@ -103,9 +104,6 @@
 
 
 
-
-
-
 <!--  
 <script type="text/javascript">
 
@@ -125,30 +123,42 @@ $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Ju
 
 
 <br>
-<p class="text-center">Global Dashboard of available consultants</p>
-
+<p class="text-center">Dashboard global des consultants</p>
+<!--  
 <script type="text/javascript">
 $(document).ready(function () {
-	  $('#dtBasicExample').DataTable({
-		  "ordering": false});
+	  $('#dtBasicExample').DataTable();
 	  $('.dataTables_length').addClass('bs-select');
 	});
 </script>
-
+-->
 <!-- Search form -->
 <div class="md-form active-purple active-purple-2 mb-3">
-    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+    <input class="form-control" type="text" id="myInput" placeholder="Rechercher" aria-label="Rechercher">
 </div>
 
-<table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
+<table id="dtBasicExample" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th class="th-sm">Grade
-        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+    <th class="th-sm" style="text-align:center">#
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
-      <th class="th-sm">Consultant
-        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      <th class="th-sm" style="text-align:center">Titre
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
+      <th class="th-sm" style="text-align:center">Consultant
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      </th>
+      <th class="th-sm" style="text-align:center">M1
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      </th>
+      <th class="th-sm" style="text-align:center">M2
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      </th>
+      <th class="th-sm" style="text-align:center">M3
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      </th>
+      <!--  
       <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F')); ?>
         <i class="fa fa-sort float-right" aria-hidden="true"></i>
       </th>
@@ -158,12 +168,13 @@ $(document).ready(function () {
       <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+2, 1))); ?>
         <i class="fa fa-sort float-right" aria-hidden="true"></i>
       </th>
-      <th class="th-sm">Pistes de mission
-        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      -->
+      <th class="th-sm" style="text-align:center">Pistes de mission
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="Consultantslist">
 
 
 
@@ -217,11 +228,118 @@ $result = mysql_query("SELECT * FROM Consultant ORDER BY case when Titre = 'Part
 
 if (mysql_num_rows($result) > 0) {
 while ($row = mysql_fetch_assoc($result)) {
-    echo"<tr><td align=\"center\" width=\"12%\">".$row['Titre']."</td>";
+    
+    
+    
+    //Grade getting
+    $grade='';
+    if($row['Titre']=="Partner"){
+        $grade="P";
+    }else{
+        if($row['Titre']=="SeniorManager"){
+            $grade="SM";
+        }else{
+            if($row['Titre']=="Manager"){
+                $grade="M";
+            }else{
+                if($row['Titre']=="SeniorConsultant"){
+                    $grade="SC";
+                }else{
+                    if($row['Titre']=="Consultant"){
+                        $grade="C";
+                    }else{
+                        $grade="A";
+                    }
+                }
+            }
+        }
+    }
+    
+    //disponibility rate getting dispo M0
+    $dispoM0='';
+    if($row['NombreDispoM0']==0){
+        $dispoM0="0";
+    }else{
+        if(intval($row['NombreDispoM0'])>0 && intval($row['NombreDispoM0'])<7){
+            $dispoM0="1/5";
+        }else{
+            if(intval($row['NombreDispoM0'])>6 && intval($row['NombreDispoM0'])<14){
+                $dispoM0="MT";
+            }else{
+                if(intval($row['NombreDispoM0'])>13 && intval($row['NombreDispoM0'])<18){
+                    $dispoM0="4/5";
+                }else{
+                    if(intval($row['NombreDispoM0'])>17 && intval($row['NombreDispoM0'])<24){
+                        $dispoM0="TP";
+                    }else{
+                        $dispoM0="0";
+                    }
+                }
+            }
+        }
+    }
+    
+    //disponibility rate getting dispo M1
+    
+    $dispoM1='';
+    if($row['NombreDispoM1']==0){
+        $dispoM1="0";
+    }else{
+        if(intval($row['NombreDispoM1'])>0 && intval($row['NombreDispoM1'])<7){
+            $dispoM1="1/5";
+        }else{
+            if(intval($row['NombreDispoM1'])>6 && intval($row['NombreDispoM1'])<14){
+                $dispoM1="MT";
+            }else{
+                if(intval($row['NombreDispoM1'])>13 && intval($row['NombreDispoM1'])<18){
+                    $dispoM1="4/5";
+                }else{
+                    if(intval($row['NombreDispoM1'])>17 && intval($row['NombreDispoM1'])<24){
+                        $dispoM1="TP";
+                    }else{
+                        $dispoM1="0";
+                    }
+                }
+            }
+        }
+    }
+    
+    //disponibility rate getting dispo M2
+    $dispoM2='';
+    if($row['NombreDispoM2']==0){
+        $dispoM2="0";
+    }else{
+        if(intval($row['NombreDispoM2'])>0 && intval($row['NombreDispoM2'])<7){
+            $dispoM2="1/5";
+        }else{
+            if(intval($row['NombreDispoM2'])>6 && intval($row['NombreDispoM2'])<14){
+                $dispoM2="MT";
+            }else{
+                if(intval($row['NombreDispoM2'])>13 && intval($row['NombreDispoM2'])<18){
+                    $dispoM2="4/5";
+                }else{
+                    if(intval($row['NombreDispoM2'])>17 && intval($row['NombreDispoM2'])<24){
+                        $dispoM2="TP";
+                    }else{
+                        $dispoM2="0";
+                    }
+                }
+            }
+        }
+    }
+    
+    $switch ="<div class=\"togglebutton\">
+                <label>
+                  <input type=\"checkbox\" checked=\"\">
+                  <span class=\"toggle\"></span>
+                </label>
+              </div>";
+    echo"<tr><td align=\"center\" width=\"2%\">".$switch."</td>";
+    echo"<td align=\"center\" width=\"2%\">".$grade."</td>";
     echo"<td align=\"center\" width=\"20%\">".$row['NomPrenom']."</td>";
-    echo"<td align=\"center\" width=\"12%\">".$row['NombreDispoM0']."</td>";
-    echo"<td align=\"center\" width=\"12%\">".$row['NombreDispoM1']."</td>";
-    echo"<td align=\"center\" width=\"12%\">".$row['NombreDispoM2']."</td>";
+    echo"<td align=\"center\" width=\"2%\">".$dispoM0."</td>";
+    echo"<td align=\"center\" width=\"2%\">".$dispoM1."</td>";
+    echo"<td align=\"center\" width=\"2%\">".$dispoM2."</td>";
     //echo"<td>".$row['Titre']."</td>";
     //echo"<td>".$row['ExperienceY']." ans et ".$row['ExperienceM']." Mois </td>";
     // Add missions consultant have workded with + Buttton to add them on the fly. may be a div with a specific name that can be modified with an ajax request.
@@ -234,7 +352,7 @@ while ($row = mysql_fetch_assoc($result)) {
     
     
     //echo"<td>".$row['Domicile']."</td></tr>";
-    echo"<td align=\"center\" width=\"32%\"></td></tr>";
+    echo"<td align=\"center\" width=\"70%\"></td></tr>";
     
 }
 
@@ -253,7 +371,16 @@ while ($row = mysql_fetch_assoc($result)) {
 
 </div>
 
-
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#Consultantslist tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 </body>
 </html>
