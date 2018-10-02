@@ -98,7 +98,38 @@
 
 
 <br>
-<br>
+
+
+<!-- Default form login -->
+<form id="file-catcher" action="/controllers/action_upload.php" method="POST" enctype="multipart/form-data class="text-center border border-light p-5">
+
+    <p class="h4 mb-4">Upload</p>
+
+
+	<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+  </div>
+  <div class="custom-file">
+    <input id="file-input" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" name="upload[]" multiple="multiple">
+    <label class="custom-file-label" for="inputGroupFile01">Sélectionnez les fichiers :</label>
+  </div>
+</div>
+
+    <!-- Sign in button -->
+    <button class="btn btn-info btn-block my-4" type="submit" name="submit" >Upload</button>
+
+
+
+
+
+</form>
+<!-- Default form login -->
+
+
+
+
+<!-- 
 
 
 <form id="file-catcher" action="/controllers/action_upload.php" method="POST" enctype="multipart/form-data">
@@ -109,11 +140,12 @@
     
     <p><input type="submit" name="submit" value="Upload">
 </form>
-
+ -->
+ 
+ 
 <div id="file-list-display"></div>
 <div id="upload-response"></div>
 
 <script src="js/upload.js"></script>
-
 </body>
 </html>

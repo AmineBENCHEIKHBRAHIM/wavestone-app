@@ -36,8 +36,32 @@
 <!-- MDBootstrap Datatables  -->
 <script type="text/javascript" src="js/datatables.min.js"></script>
 
+<!-- Draggable style of reorderable buttons -->
 
-    
+<style type="text/css">
+* { box-sizing: border-box }
+.box {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	width: 480px;
+	padding: 0px;
+	
+}
+.item {
+	display: inline-block;
+	margin: 6px;
+	width: 120px;
+	height: 120px;
+	border: 1px solid #c4c4c4;
+	box-shadow: 0 0 9px rgba(0, 0, 0, 0.13);
+	line-height: 120px;
+	text-align: center;
+	font-size: 44px;
+}
+</style>
+
 </head>
 <body>
 
@@ -98,9 +122,6 @@
 
 </nav>
 <!--/.Navbar-->
-
-
-
 
 
 
@@ -350,9 +371,14 @@ while ($row = mysql_fetch_assoc($result)) {
     
     //rendre les colonnes modifiables directement
     
-    
     //echo"<td>".$row['Domicile']."</td></tr>";
-    echo"<td align=\"center\" width=\"70%\"></td></tr>";
+    $sortable="<div class=\"box grabbable-parent\">
+    <button type=\"button\" class=\"btn btn-primary\">Piste 1</button>
+    <button type=\"button\" class=\"btn btn-warning\">Piste 2</button>
+    <button type=\"button\" class=\"btn btn-danger\">Piste 3</button>
+</div>";
+    
+    echo"<td align=\"center\" width=\"70%\">".$sortable."</td></tr>";
     
 }
 
@@ -370,6 +396,27 @@ while ($row = mysql_fetch_assoc($result)) {
 
 
 </div>
+
+
+
+
+
+
+<script type="text/javascript" src="js/grabbable.js"></script>
+<script type="text/javascript">
+"use strict";
+!function(){
+	var x = document.querySelectorAll(".grabbable-parent");
+	var i;
+	for (i = 0; i < x.length; i++) {
+	    x[i].grabbable();
+	}
+
+}()
+</script>
+
+
+
 
 <script>
 $(document).ready(function(){
