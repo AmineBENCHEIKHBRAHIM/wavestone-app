@@ -24,6 +24,15 @@
 
 <link href="stylesheets/toggle.css" rel="stylesheet" />
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Include material.io library -->
+<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+
+
+
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
@@ -45,7 +54,7 @@
 	display: flex;
 	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
-	width: 480px;
+	width: 380px;
 	padding: 0px;
 	
 }
@@ -125,6 +134,13 @@
 
 
 
+
+
+
+
+
+
+
 <!--  
 <script type="text/javascript">
 
@@ -193,6 +209,9 @@ $(document).ready(function () {
       <th class="th-sm" style="text-align:center">Pistes de mission
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
+      <th class="th-sm" style="text-align:center">Action
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      </th>
     </tr>
   </thead>
   <tbody id="Consultantslist">
@@ -249,6 +268,10 @@ $result = mysql_query("SELECT * FROM Consultant ORDER BY case when Titre = 'Part
 
 if (mysql_num_rows($result) > 0) {
 while ($row = mysql_fetch_assoc($result)) {
+    
+    //id getting
+    $idConsultant=intval($row['idConsultant']);
+    
     
     
     
@@ -355,7 +378,7 @@ while ($row = mysql_fetch_assoc($result)) {
                   <span class=\"toggle\"></span>
                 </label>
               </div>";
-    echo"<tr><td align=\"center\" width=\"2%\">".$switch."</td>";
+    echo"<tr id=".$idConsultant."><td align=\"center\" width=\"2%\">".$switch."</td>";
     echo"<td align=\"center\" width=\"2%\">".$grade."</td>";
     echo"<td align=\"center\" width=\"20%\">".$row['NomPrenom']."</td>";
     echo"<td align=\"center\" width=\"2%\">".$dispoM0."</td>";
@@ -372,14 +395,18 @@ while ($row = mysql_fetch_assoc($result)) {
     //rendre les colonnes modifiables directement
     
     //echo"<td>".$row['Domicile']."</td></tr>";
-    $sortable="<div class=\"box grabbable-parent\">
+    $sortable="<div class=\"box grabbable-parent\" id=\"missions".$idConsultant."\">
     <button type=\"button\" class=\"btn btn-primary\">Piste 1</button>
     <button type=\"button\" class=\"btn btn-warning\">Piste 2</button>
     <button type=\"button\" class=\"btn btn-danger\">Piste 3</button>
 </div>";
     
-    echo"<td align=\"center\" width=\"70%\">".$sortable."</td></tr>";
+    echo"<td align=\"center\" width=\"50%\">".$sortable."</td>";
     
+    $action_panel="<button onclick=\"missionAdd(".$idConsultant.")\" id=\"add".$idConsultant."\" class=\"mdc-fab\" aria-label=\"Add\">
+  <span class=\"material-icons mdc-fab__icon mdc-fab--mini\">add</span>
+</button>";
+    echo"<td align=\"center\" width=\"20%\">".$action_panel."</td></tr>";
 }
 
 
@@ -416,6 +443,21 @@ while ($row = mysql_fetch_assoc($result)) {
 </script>
 
 
+<!-- Missions add script -->
+<script>
+function missionAdd(idConsultant){
+	//window.alert("missions".concat(idConsultant));
+	var missionsid = "#missions".concat(idConsultant);
+	$(missionsid).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
+	//document.getElementByID("missions".concat(idConsultant)).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
+	var x = document.querySelectorAll(".grabbable-parent");
+	var i;
+	for (i = 0; i < x.length; i++) {
+	    x[i].grabbable();
+	}
+	
+}
+</script>
 
 
 <script>
