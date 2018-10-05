@@ -157,10 +157,56 @@ $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Ju
 
 <div class="container">
 
+<!--  
+
+<button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+
+<a type="button" class="btn btn-outline-warning waves-effect">Send <i class="fa fa-paper-plane-o ml-1"></i></a>
+
+-->
+
+<!-- Modal pop up design & HTML structure -->
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Ajouter une mission</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">           
+            
+                <div class="md-form mb-5" id="missionaddid">
+                    <i class="fa fa-tag prefix grey-text"></i>
+                    <input type="text" id="missionname" class="form-control validate" placeholder="Nom de mission">
+                    
+                    <!--  <label data-error="wrong" data-success="right" for="form32">Nom de mission</label>-->
+                </div>
+                <input type="hidden" id="modelhiddenconsultantid" name="modelhiddenconsultantid" value="">
+<!--  
+<div class="md-form active-purple active-purple-2 mb-3">
+    <input class="form-control" type="text" id="myInput" placeholder="Rechercher" aria-label="Rechercher">
+</div>
+-->
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        		<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="missionAdd()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  
+<div class="text-center">
+    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Ajouter une mission</a>
+</div>
+-->
 
 
 <br>
-<p class="text-center">Dashboard global des consultants</p>
+<!-- <p class="text-center">Dashboard global des consultants</p>-->
 <!--  
 <script type="text/javascript">
 $(document).ready(function () {
@@ -403,12 +449,16 @@ while ($row = mysql_fetch_assoc($result)) {
     
     echo"<td align=\"center\" width=\"50%\">".$sortable."</td>";
     
-    $action_panel="<button onclick=\"missionAdd(".$idConsultant.")\" id=\"add".$idConsultant."\" class=\"mdc-fab\" aria-label=\"Add\">
+    $action_panel="<button class=\"mdc-fab\" aria-label=\"Add\" data-toggle=\"modal\" data-target=\"#modalLoginForm\" data-id=".$idConsultant.">
   <span class=\"material-icons mdc-fab__icon mdc-fab--mini\">add</span>
 </button>";
     echo"<td align=\"center\" width=\"20%\">".$action_panel."</td></tr>";
 }
 
+/*
+ * onclick=\"missionAdd(".$idConsultant.")\" id=\"add".$idConsultant."\"
+ * 
+ */
 
 }else{
     echo "No consultants to show";
@@ -442,13 +492,33 @@ while ($row = mysql_fetch_assoc($result)) {
 }()
 </script>
 
+<!-- Pass parameter to modal script -->
+<script>
+$(document).on("click",".mdc-fab",function(){
+	var myBookId = $(this).data('id');
+	//window.alert(myBookId);
+	$("#modelhiddenconsultantid").val(myBookId);
+	//$(".modal-body mx-3 #modelhiddenconsultantid").val(myBookId);
+});
+</script>
 
 <!-- Missions add script -->
 <script>
-function missionAdd(idConsultant){
+function missionAdd(){
 	//window.alert("missions".concat(idConsultant));
+	
+	var idConsultant = document.getElementById("modelhiddenconsultantid").value;
+	var missionname = document.getElementById("missionname").value;
+
+	//window.alert(idConsultant);
+	//window.alert(missionname);
+
+	
 	var missionsid = "#missions".concat(idConsultant);
-	$(missionsid).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
+	var temp = "<button type=\"button\" class=\"btn btn-danger\">".concat(missionname);
+	temp=temp.concat("</button>");
+	$(missionsid).append(temp);
+	//$(missionsid).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
 	//document.getElementByID("missions".concat(idConsultant)).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
 	var x = document.querySelectorAll(".grabbable-parent");
 	var i;
