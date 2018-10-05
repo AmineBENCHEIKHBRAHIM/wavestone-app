@@ -442,9 +442,9 @@ while ($row = mysql_fetch_assoc($result)) {
     
     //echo"<td>".$row['Domicile']."</td></tr>";
     $sortable="<div class=\"box grabbable-parent\" id=\"missions".$idConsultant."\">
-    <button type=\"button\" class=\"btn btn-primary\">Piste 1</button>
-    <button type=\"button\" class=\"btn btn-warning\">Piste 2</button>
-    <button type=\"button\" class=\"btn btn-danger\">Piste 3</button>
+    <button type=\"button\" class=\"btn btn-dark-green\" onclick=\"toggleButton(this)\">Piste 1</button>
+    <button type=\"button\" class=\"btn btn-primary\" onclick=\"toggleButton(this)\">Piste 2</button>
+    <button type=\"button\" class=\"btn btn-yellow\" onclick=\"toggleButton(this)\">Piste 3</button>
 </div>";
     
     echo"<td align=\"center\" width=\"50%\">".$sortable."</td>";
@@ -502,6 +502,35 @@ $(document).on("click",".mdc-fab",function(){
 });
 </script>
 
+<!-- Button class toggle function -->
+<script>
+
+
+function toggleButton(element) {
+	if(element.className == "btn btn-dark-green"){
+		//window.alert("btn btn-dark-green");
+		//$(this).toggleClass('btn btn-primary');
+		element.className = "btn btn-primary";
+	}else{
+		if(element.className == "btn btn-primary"){
+			//window.alert("btn btn-primary");
+			//$(this).toggleClass('btn btn-yellow');
+			element.className = "btn btn-yellow";
+		}else{
+			if(element.className == "btn btn-yellow"){
+				//window.alert("btn btn-yellow");
+				//$(this).toggleClass('btn btn-dark-green');
+				element.className = "btn btn-dark-green";
+			}
+		}
+	}
+	
+	};
+
+</script>
+
+
+
 <!-- Missions add script -->
 <script>
 function missionAdd(){
@@ -515,7 +544,7 @@ function missionAdd(){
 
 	
 	var missionsid = "#missions".concat(idConsultant);
-	var temp = "<button type=\"button\" class=\"btn btn-danger\">".concat(missionname);
+	var temp = "<button type=\"button\" class=\"btn btn-dark-green\" onclick=\"toggleButton(this)\">".concat(missionname);
 	temp=temp.concat("</button>");
 	$(missionsid).append(temp);
 	//$(missionsid).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
