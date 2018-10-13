@@ -54,7 +54,7 @@
 	display: flex;
 	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
-	width: 380px;
+	width: 400px;
 	padding: 0px;
 	
 }
@@ -152,7 +152,7 @@ $(document).ready( function () {
 -->
 <?php 
 $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-$french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+$french_months = array('Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec');
 ?>
 
 <div class="container">
@@ -179,7 +179,7 @@ $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Ju
             
                 <div class="md-form mb-5" id="missionaddid">
                     <i class="fa fa-tag prefix grey-text"></i>
-                    <input type="text" id="missionname" class="form-control validate" placeholder="Nom de mission">
+                    <input type="text" id="missionname" class="form-control validate" placeholder="Nom de mission" maxlength="100">
                     
                     <!--  <label data-error="wrong" data-success="right" for="form32">Nom de mission</label>-->
                 </div>
@@ -223,7 +223,13 @@ $(document).ready(function () {
 <table id="dtBasicExample" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
   <thead>
     <tr>
-    <th class="th-sm" style="text-align:center">#
+    <th class="th-sm" style="text-align:center">
+    <div class="togglebutton">
+                <label>
+                  <input id="togglerefresh" type="checkbox" onclick="ShowHideConsultants()" checked>
+                  <span class="toggle"></span>
+                </label>
+              </div>
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
       <th class="th-sm" style="text-align:center">Titre
@@ -232,26 +238,27 @@ $(document).ready(function () {
       <th class="th-sm" style="text-align:center">Consultant
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
+      <!--  
       <th class="th-sm" style="text-align:center">M1
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
-      </th>
+      <!-- </th>
       <th class="th-sm" style="text-align:center">M2
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
-      </th>
+      <!-- </th>
       <th class="th-sm" style="text-align:center">M3
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      <!-- </th>-->
+        
+      <th class="th-sm" style="text-align:center"><? echo str_replace($english_months, $french_months, date('F')); ?>
+        <!-- <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
-      <!--  
-      <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F')); ?>
-        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      <th class="th-sm" style="text-align:center"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+1, 1))); ?>
+        <!-- <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
-      <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+1, 1))); ?>
-        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+      <th class="th-sm" style="text-align:center"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+2, 1))); ?>
+        <!-- <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
-      <th class="th-sm"><? echo str_replace($english_months, $french_months, date('F', mktime(0, 0, 0, date('m')+2, 1))); ?>
-        <i class="fa fa-sort float-right" aria-hidden="true"></i>
-      </th>
-      -->
+      
       <th class="th-sm" style="text-align:center">Pistes de mission
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
@@ -348,21 +355,63 @@ while ($row = mysql_fetch_assoc($result)) {
     //disponibility rate getting dispo M0
     $dispoM0='';
     if($row['NombreDispoM0']==0){
-        $dispoM0="0";
+        //$dispoM0="0";
+        $dispoM0="<select class=\"browser-default\">
+    <option value=\"0\" selected>0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
     }else{
         if(intval($row['NombreDispoM0'])>0 && intval($row['NombreDispoM0'])<7){
-            $dispoM0="1/5";
+            //$dispoM0="1/5";
+            $dispoM0="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\" selected>1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
         }else{
             if(intval($row['NombreDispoM0'])>6 && intval($row['NombreDispoM0'])<14){
-                $dispoM0="MT";
+                //$dispoM0="MT";
+                $dispoM0="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\" selected>MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
             }else{
                 if(intval($row['NombreDispoM0'])>13 && intval($row['NombreDispoM0'])<18){
-                    $dispoM0="4/5";
+                    //$dispoM0="4/5";
+                    $dispoM0="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\" selected>4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
                 }else{
                     if(intval($row['NombreDispoM0'])>17 && intval($row['NombreDispoM0'])<24){
-                        $dispoM0="TP";
+                        //$dispoM0="TP";
+                        $dispoM0="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\" selected>TP</option>
+</select>";
                     }else{
-                        $dispoM0="0";
+                        //$dispoM0="0";
+                        $dispoM0="<select class=\"browser-default\">
+    <option value=\"0\" selected>0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
                     }
                 }
             }
@@ -373,21 +422,63 @@ while ($row = mysql_fetch_assoc($result)) {
     
     $dispoM1='';
     if($row['NombreDispoM1']==0){
-        $dispoM1="0";
+        //$dispoM1="0";
+        $dispoM1="<select class=\"browser-default\">
+    <option value=\"0\" selected>0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
     }else{
         if(intval($row['NombreDispoM1'])>0 && intval($row['NombreDispoM1'])<7){
-            $dispoM1="1/5";
+            //$dispoM1="1/5";
+            $dispoM1="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\" selected>1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
         }else{
             if(intval($row['NombreDispoM1'])>6 && intval($row['NombreDispoM1'])<14){
-                $dispoM1="MT";
+                //$dispoM1="MT";
+                $dispoM1="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\" selected>MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
             }else{
                 if(intval($row['NombreDispoM1'])>13 && intval($row['NombreDispoM1'])<18){
-                    $dispoM1="4/5";
+                    //$dispoM1="4/5";
+                    $dispoM1="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\" selected>4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
                 }else{
                     if(intval($row['NombreDispoM1'])>17 && intval($row['NombreDispoM1'])<24){
-                        $dispoM1="TP";
+                        //$dispoM1="TP";
+                        $dispoM1="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\" selected>TP</option>
+</select>";
                     }else{
-                        $dispoM1="0";
+                        //$dispoM1="0";
+                        $dispoM1="<select class=\"browser-default\">
+    <option value=\"0\" selected>0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
                     }
                 }
             }
@@ -397,34 +488,79 @@ while ($row = mysql_fetch_assoc($result)) {
     //disponibility rate getting dispo M2
     $dispoM2='';
     if($row['NombreDispoM2']==0){
-        $dispoM2="0";
+        //$dispoM2="0";
+        $dispoM2="<select class=\"browser-default\">
+    <option value=\"0\" selected>0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
     }else{
         if(intval($row['NombreDispoM2'])>0 && intval($row['NombreDispoM2'])<7){
-            $dispoM2="1/5";
+            //$dispoM2="1/5";
+            $dispoM2="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\" selected>1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
         }else{
             if(intval($row['NombreDispoM2'])>6 && intval($row['NombreDispoM2'])<14){
-                $dispoM2="MT";
+                //$dispoM2="MT";
+                $dispoM2="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\" selected>MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
             }else{
                 if(intval($row['NombreDispoM2'])>13 && intval($row['NombreDispoM2'])<18){
-                    $dispoM2="4/5";
+                    //$dispoM2="4/5";
+                    $dispoM2="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\" selected>4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
                 }else{
                     if(intval($row['NombreDispoM2'])>17 && intval($row['NombreDispoM2'])<24){
-                        $dispoM2="TP";
+                        //$dispoM2="TP";
+                        $dispoM2="<select class=\"browser-default\">
+    <option value=\"0\">0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\" selected>TP</option>
+</select>";
                     }else{
-                        $dispoM2="0";
+                        //$dispoM2="0";
+                        $dispoM2="<select class=\"browser-default\">
+    <option value=\"0\" selected>0</option>
+    <option value=\"1/5\">1/5</option>
+    <option value=\"MT\">MT</option>
+    <option value=\"4/5\">4/5</option>
+    <option value=\"TP\">TP</option>
+</select>";
                     }
                 }
             }
         }
     }
     
+    
+  
+    
     $switch ="<div class=\"togglebutton\">
                 <label>
-                  <input type=\"checkbox\" checked=\"\">
+                  <input id=\"check".$idConsultant."\" type=\"checkbox\" onclick=\"ToggleConsultant('".$idConsultant."')\" checked>
                   <span class=\"toggle\"></span>
                 </label>
               </div>";
-    echo"<tr id=".$idConsultant."><td align=\"center\" width=\"2%\">".$switch."</td>";
+    echo"<tr class=\"Consultanttr\" id=".$idConsultant."><td align=\"center\" width=\"2%\">".$switch."</td>";
     echo"<td align=\"center\" width=\"2%\">".$grade."</td>";
     echo"<td align=\"center\" width=\"20%\">".$row['NomPrenom']."</td>";
     echo"<td align=\"center\" width=\"2%\">".$dispoM0."</td>";
@@ -442,9 +578,9 @@ while ($row = mysql_fetch_assoc($result)) {
     
     //echo"<td>".$row['Domicile']."</td></tr>";
     $sortable="<div class=\"box grabbable-parent\" id=\"missions".$idConsultant."\">
-    <button type=\"button\" class=\"btn btn-dark-green\" onclick=\"toggleButton(this)\">Piste 1</button>
-    <button type=\"button\" class=\"btn btn-primary\" onclick=\"toggleButton(this)\">Piste 2</button>
-    <button type=\"button\" class=\"btn btn-yellow\" onclick=\"toggleButton(this)\">Piste 3</button>
+    <button type=\"button\" class=\"btn btn-light-green\" onclick=\"toggleButton(this)\" id=\"mission1".$idConsultant."\" title=\"Piste1\" onmouseenter=\"Showclosebutton('close1".$idConsultant."')\" onmouseleave=\"Hideclosebutton('close1".$idConsultant."')\">Piste1 <i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" id=\"close1".$idConsultant."\" onmousedown=\"WhichButton(event,'mission1".$idConsultant."')\"></i></button>
+    <button type=\"button\" class=\"btn btn-purple\" onclick=\"toggleButton(this)\"  id=\"mission2".$idConsultant."\" title=\"Piste2\" onmouseenter=\"Showclosebutton('close2".$idConsultant."')\" onmouseleave=\"Hideclosebutton('close2".$idConsultant."')\">Piste2 <i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" id=\"close2".$idConsultant."\" onmousedown=\"WhichButton(event,'mission2".$idConsultant."')\"></i></button>
+    <button type=\"button\" class=\"btn btn-outline-secondary waves-effect\" onclick=\"toggleButton(this)\"  id=\"mission3".$idConsultant."\" title=\"Piste3\" onmouseenter=\"Showclosebutton('close3".$idConsultant."')\" onmouseleave=\"Hideclosebutton('close3".$idConsultant."')\">Piste3 <i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" id=\"close3".$idConsultant."\" onmousedown=\"WhichButton(event,'mission3".$idConsultant."')\"></i></button>
 </div>";
     
     echo"<td align=\"center\" width=\"50%\">".$sortable."</td>";
@@ -477,6 +613,95 @@ while ($row = mysql_fetch_assoc($result)) {
 
 
 
+<script>
+
+//to finalise
+function ShowHideConsultants() {
+
+	$("#Consultantslist tr").filter(function() {
+	      $(this).toggle(true)
+	    });
+	//alert(showall);
+
+	//var x = document.querySelectorAll(".consultanttr");
+	//var i;
+	//for (i = 0; i < x.length; i++) {
+	  //  x[i].show();
+	//}
+
+}
+</script>
+
+
+<script>
+function ToggleConsultant(id) {
+	//alert("id="+id);
+	var jsid = "check".concat(id);
+	//alert("jsid="+jsid);
+	var trcons = document.getElementById(jsid);
+
+	var trid = "#".concat(id);
+	//trid = trid.concat(id);
+	//alert("trid="+trid);
+	if(jsid.checked == true){
+		$(trid).show();
+		//alert("shown");
+		}else{
+			$(trid).hide();
+			//alert("hidden");
+		}
+
+	
+	
+	//alert("You pressed button: " + event.button);
+	//if(event.button=='2'){		
+    //window.alert(id);
+	//}
+}
+</script>
+
+
+<script>
+function Hideclosebutton(id) {
+	//alert(id);
+	var missionidclose = "#".concat(id);
+	$(missionidclose).hide();
+	
+	//alert("You pressed button: " + event.button);
+	//if(event.button=='2'){		
+    //window.alert(id);
+	//}
+}
+</script>
+
+
+<script>
+function Showclosebutton(id) {
+	//alert(id);
+	var missionidclose = "#".concat(id);
+	$(missionidclose).show();
+	
+	//alert("You pressed button: " + event.button);
+	//if(event.button=='2'){		
+    //window.alert(id);
+	//}
+}
+</script>
+
+<script>
+function WhichButton(event,id) {
+	//alert(id);
+	var missionid = "#".concat(id);
+	if(event.button==0){
+		$(missionid).remove();
+	}
+	
+	//alert("You pressed button: " + event.button);
+	//if(event.button=='2'){		
+    //window.alert(id);
+	//}
+}
+</script>
 
 
 <script type="text/javascript" src="js/grabbable.js"></script>
@@ -507,20 +732,20 @@ $(document).on("click",".mdc-fab",function(){
 
 
 function toggleButton(element) {
-	if(element.className == "btn btn-dark-green"){
+	if(element.className == "btn btn-light-green"){
 		//window.alert("btn btn-dark-green");
 		//$(this).toggleClass('btn btn-primary');
-		element.className = "btn btn-primary";
+		element.className = "btn btn-purple";
 	}else{
-		if(element.className == "btn btn-primary"){
+		if(element.className == "btn btn-purple"){
 			//window.alert("btn btn-primary");
 			//$(this).toggleClass('btn btn-yellow');
-			element.className = "btn btn-yellow";
+			element.className = "btn btn-outline-secondary waves-effect";
 		}else{
-			if(element.className == "btn btn-yellow"){
+			if(element.className == "btn btn-outline-secondary waves-effect"){
 				//window.alert("btn btn-yellow");
 				//$(this).toggleClass('btn btn-dark-green');
-				element.className = "btn btn-dark-green";
+				element.className = "btn btn-light-green";
 			}
 		}
 	}
@@ -539,12 +764,39 @@ function missionAdd(){
 	var idConsultant = document.getElementById("modelhiddenconsultantid").value;
 	var missionname = document.getElementById("missionname").value;
 
+	var missionnameshort=missionname.substring(0,6);
 	//window.alert(idConsultant);
 	//window.alert(missionname);
 
 	
 	var missionsid = "#missions".concat(idConsultant);
-	var temp = "<button type=\"button\" class=\"btn btn-dark-green\" onclick=\"toggleButton(this)\">".concat(missionname);
+	//var temp = "<button type=\"button\" class=\"btn btn-light-green\" onclick=\"toggleButton(this)\">".concat(missionname);
+	//<button type=\"button\" class=\"btn btn-light-green\" onclick=\"toggleButton(this)\" id=\"mission1".$idConsultant."\" onmouseenter=\"Showclosebutton('close1".$idConsultant."')\" onmouseleave=\"Hideclosebutton('close1".$idConsultant."')\">Piste1 <i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" id=\"close1".$idConsultant."\" onmousedown=\"WhichButton(event,'mission1".$idConsultant."')\"></i></button>
+	var temp = "<button type=\"button\" class=\"btn btn-light-green\" onclick=\"toggleButton(this)\" id=\"mission4".concat(idConsultant);
+	temp=temp.concat('" ');
+	temp=temp.concat("title=\"");
+	temp=temp.concat(missionname);
+	temp=temp.concat("\" ");
+	temp=temp.concat("onmouseenter=\"Showclosebutton('close4");
+	temp=temp.concat(idConsultant);
+	temp=temp.concat("')\"");
+	temp=temp.concat(" ");
+	temp=temp.concat("onmouseleave=\"Hideclosebutton('close4");
+	temp=temp.concat(idConsultant);
+	temp=temp.concat("')\"");
+	temp=temp.concat(">");
+	temp=temp.concat(missionnameshort);
+	temp=temp.concat(" ");
+	temp=temp.concat("<i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" ");
+	temp=temp.concat("id=\"close4");
+	temp=temp.concat(idConsultant);
+	temp=temp.concat("\" ");
+	temp=temp.concat("onmousedown=\"WhichButton(event,'mission4");
+	temp=temp.concat(idConsultant);
+	temp=temp.concat("')\"></i>");
+
+	//<i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" id=\"close1".$idConsultant."\" onmousedown=\"WhichButton(event,'mission1".$idConsultant."')\"></i>
+	//<button type=\"button\" class=\"btn btn-light-green\" onmouseleave=\"Hideclosebutton('close1".$idConsultant."')\">Piste1 <i class=\"fa fa-remove\" aria-hidden=\"true\" style=\"display:none\" id=\"close1".$idConsultant."\" onmousedown=\"WhichButton(event,'mission1".$idConsultant."')\"></i></button>
 	temp=temp.concat("</button>");
 	$(missionsid).append(temp);
 	//$(missionsid).append("<button type=\"button\" class=\"btn btn-danger\">Piste X</button>");
@@ -557,6 +809,7 @@ function missionAdd(){
 	
 }
 </script>
+
 
 
 <script>
