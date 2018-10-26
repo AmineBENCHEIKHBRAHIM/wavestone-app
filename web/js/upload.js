@@ -9,7 +9,15 @@
   fileCatcher.addEventListener('submit', function (evnt) {
   	evnt.preventDefault();
     fileList.forEach(function (file) {
-    	sendFile(file);
+    	//make sure the extension is xlsb
+    	var str = file.name;
+    	var arr = str.split(".");
+    	if(arr[arr.length-1]=="xlsb"){
+    		sendFile(file);
+    	}else{
+    		console.log("ERROR : File extension is not supported");
+    	}
+    	
     });
   });
   
@@ -101,9 +109,23 @@
 				  var ConsultantsName_address_of_cell = 'D'+i;
 				  var ConsultantsId_address_of_cell = 'E'+i;
 				  var ConsultantsArrivalDate_address_of_cell = 'B'+i;
+				  
+				  var ConsultantsProdM0_address_of_cell = 'J'+i;
+				  var ConsultantsProdM1_address_of_cell = 'N'+i;
+				  var ConsultantsProdM2_address_of_cell = 'R'+i;
+				  
+				  var ConsultantsImprodM0_address_of_cell = 'K'+i;
+				  var ConsultantsImprodM1_address_of_cell = 'O'+i;
+				  var ConsultantsImprodM2_address_of_cell = 'S'+i;
+				  
+				  var ConsultantsCongeM0_address_of_cell = 'L'+i;
+				  var ConsultantsCongeM1_address_of_cell = 'P'+i;
+				  var ConsultantsCongeM2_address_of_cell = 'T'+i;
+				  
 				  var ConsultantsDispoM0_address_of_cell = 'M'+i;
 				  var ConsultantsDispoM1_address_of_cell = 'Q'+i;
 				  var ConsultantsDispoM2_address_of_cell = 'U'+i;
+
 				  var ConsultantsProfileExpertise_address_of_cell = 'AF'+i;
 				  var ConsultantsComments_address_of_cell = 'AH'+i;
 				  
@@ -111,9 +133,23 @@
 				  var ConsultantsName_cell = worksheet[ConsultantsName_address_of_cell];
 				  var ConsultantsId_cell = worksheet[ConsultantsId_address_of_cell];
 				  var ConsultantsArrivalDate_cell = worksheet[ConsultantsArrivalDate_address_of_cell];
+				  
+				  var ConsultantsProdM0_cell = worksheet[ConsultantsProdM0_address_of_cell];
+				  var ConsultantsProdM1_cell = worksheet[ConsultantsProdM1_address_of_cell];
+				  var ConsultantsProdM2_cell = worksheet[ConsultantsProdM2_address_of_cell];
+				  
+				  var ConsultantsImprodM0_cell = worksheet[ConsultantsImprodM0_address_of_cell];
+				  var ConsultantsImprodM1_cell = worksheet[ConsultantsImprodM1_address_of_cell];
+				  var ConsultantsImprodM2_cell = worksheet[ConsultantsImprodM2_address_of_cell];
+				  
+				  var ConsultantsCongeM0_cell = worksheet[ConsultantsCongeM0_address_of_cell];
+				  var ConsultantsCongeM1_cell = worksheet[ConsultantsCongeM1_address_of_cell];
+				  var ConsultantsCongeM2_cell = worksheet[ConsultantsCongeM2_address_of_cell];
+				  
 				  var ConsultantsDispoM0_cell = worksheet[ConsultantsDispoM0_address_of_cell];
 				  var ConsultantsDispoM1_cell = worksheet[ConsultantsDispoM1_address_of_cell];
 				  var ConsultantsDispoM2_cell = worksheet[ConsultantsDispoM2_address_of_cell];
+				  
 				  var ConsultantsProfileExpertise_cell = worksheet[ConsultantsProfileExpertise_address_of_cell];
 				  var ConsultantsComments_cell = worksheet[ConsultantsComments_address_of_cell];
 				  
@@ -137,7 +173,22 @@
 				  var finalyear = Math.floor(diffm/12);
 				  var finalmonth = Math.floor(diffm - finalyear * 12);
 				    
-				  //
+				  //get months imputations values
+				  
+				  var ConsultantsProdM0_value = (ConsultantsProdM0_cell ? ConsultantsProdM0_cell.v : undefined);
+				  var ConsultantsProdM1_value = (ConsultantsProdM1_cell ? ConsultantsProdM1_cell.v : undefined);
+				  var ConsultantsProdM2_value = (ConsultantsProdM2_cell ? ConsultantsProdM2_cell.v : undefined);
+				  
+				  var ConsultantsImprodM0_value = (ConsultantsImprodM0_cell ? ConsultantsImprodM0_cell.v : undefined);
+				  var ConsultantsImprodM1_value = (ConsultantsImprodM1_cell ? ConsultantsImprodM1_cell.v : undefined);
+				  var ConsultantsImprodM2_value = (ConsultantsImprodM2_cell ? ConsultantsImprodM2_cell.v : undefined);
+				  
+				  var ConsultantsCongeM0_value = (ConsultantsCongeM0_cell ? ConsultantsCongeM0_cell.v : undefined);
+				  var ConsultantsCongeM1_value = (ConsultantsCongeM0_cell ? ConsultantsCongeM0_cell.v : undefined);
+				  var ConsultantsCongeM2_value = (ConsultantsCongeM0_cell ? ConsultantsCongeM0_cell.v : undefined);
+				  
+				  
+				  //get Dispo values
 				  
 				  var ConsultantsDispoM0_value = (ConsultantsDispoM0_cell ? ConsultantsDispoM0_cell.v : undefined);
 				  var ConsultantsDispoM1_value = (ConsultantsDispoM1_cell ? ConsultantsDispoM1_cell.v : undefined);
@@ -147,7 +198,12 @@
 				  			// further processing for profile expertise to extract CDM, Titre & Domicile
 				  var ConsultantsProfileExpertise_value = (ConsultantsProfileExpertise_cell ? ConsultantsProfileExpertise_cell.v : undefined);
 				  var ConsultantsProfileExpertise_value_split = ConsultantsProfileExpertise_value.split(";");
-				  var ConsultantsCDM_value = ConsultantsProfileExpertise_value_split[0];
+				  //var ConsultantsCDM_value = ConsultantsProfileExpertise_value_split[0];
+				  //Change : CDM value is not got from file.name
+				  var filename = file.name;
+				  var arr = filename.split(".");
+				  var ConsultantsCDM_value = arr[arr.length-2].slice(-2);
+				  
 				  var ConsultantsTitre_value = ConsultantsProfileExpertise_value_split[1];
 				  var ConsultantsDomicile_value = ConsultantsProfileExpertise_value_split[5];
 				  if(ConsultantsDomicile_value == '?' || ConsultantsDomicile_value == '-'){
@@ -168,6 +224,15 @@
 				  formData.append("idConsultant", ConsultantsId_value);
 				  formData.append("NomPrenom", ConsultantsName_value);
 				  formData.append("CDM", ConsultantsCDM_value);
+				  formData.append("NombreProdM0", ConsultantsProdM0_value);
+				  formData.append("NombreProdM1", ConsultantsProdM1_value);
+				  formData.append("NombreProdM2", ConsultantsProdM2_value);
+				  formData.append("NombreImprodM0", ConsultantsImprodM0_value);
+				  formData.append("NombreImprodM1", ConsultantsImprodM1_value);
+				  formData.append("NombreImprodM2", ConsultantsImprodM2_value);
+				  formData.append("NombreCongeM0", ConsultantsCongeM0_value);
+				  formData.append("NombreCongeM1", ConsultantsCongeM1_value);
+				  formData.append("NombreCongeM2", ConsultantsCongeM2_value);
 				  formData.append("NombreDispoM0", ConsultantsDispoM0_value);
 				  formData.append("NombreDispoM1", ConsultantsDispoM1_value);
 				  formData.append("NombreDispoM2", ConsultantsDispoM2_value);

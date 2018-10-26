@@ -262,6 +262,10 @@ $(document).ready(function () {
       <th class="th-sm" style="text-align:center">Pistes de mission
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
+      <th class="th-sm" style="text-align:center">pXX
+        <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+      </th>
+      
       <th class="th-sm" style="text-align:center">Action
         <!--  <i class="fa fa-sort float-right" aria-hidden="true"></i>-->
       </th>
@@ -317,6 +321,8 @@ $result = mysql_query("SELECT * FROM Consultant ORDER BY case when Titre = 'Part
 
 //Partie recherche : 
 
+//Variable qui prend l'état du curseur global d'affichage
+
 
 
 if (mysql_num_rows($result) > 0) {
@@ -324,9 +330,20 @@ while ($row = mysql_fetch_assoc($result)) {
     
     //id getting
     $idConsultant=intval($row['idConsultant']);
+    $CDM=$row['CDM'];
     
-    
-    
+    $NombreProdM0 = $row['NombreProdM0'];
+    $NombreProdM1 = $row['NombreProdM1'];
+    $NombreProdM2 = $row['NombreProdM2'];
+    $NombreImprodM0 = $row['NombreImprodM0'];
+    $NombreImprodM1 = $row['NombreImprodM1'];
+    $NombreImprodM2 = $row['NombreImprodM2'];
+    $NombreCongeM0 = $row['NombreCongeM0'];
+    $NombreCongeM1 = $row['NombreCongeM1'];
+    $NombreCongeM2 = $row['NombreCongeM2'];
+    $NombreDispoM0 = $row['NombreDispoM0'];
+    $NombreDispoM1 = $row['NombreDispoM1'];
+    $NombreDispoM2 = $row['NombreDispoM2'];
     
     //Grade getting
     $grade='';
@@ -352,11 +369,13 @@ while ($row = mysql_fetch_assoc($result)) {
         }
     }
     
+    "<td align=\"center\" width=\"2%\">".$dispoM0."</td>";
+    
     //disponibility rate getting dispo M0
     $dispoM0='';
     if($row['NombreDispoM0']==0){
         //$dispoM0="0";
-        $dispoM0="<select class=\"browser-default\">
+        $dispoM0="<select class=\"browser-default\" title=\"Prod:".$NombreProdM0.",Improd:".$NombreImprodM0.",Conge:".$NombreCongeM0.",Dispo:".$NombreDispoM0."\">
     <option value=\"0\" selected>0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -366,7 +385,7 @@ while ($row = mysql_fetch_assoc($result)) {
     }else{
         if(intval($row['NombreDispoM0'])>0 && intval($row['NombreDispoM0'])<7){
             //$dispoM0="1/5";
-            $dispoM0="<select class=\"browser-default\">
+            $dispoM0="<select class=\"browser-default\" title=\"Prod:".$NombreProdM0.",Improd:".$NombreImprodM0.",Conge:".$NombreCongeM0.",Dispo:".$NombreDispoM0."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\" selected>1/5</option>
     <option value=\"MT\">MT</option>
@@ -376,7 +395,7 @@ while ($row = mysql_fetch_assoc($result)) {
         }else{
             if(intval($row['NombreDispoM0'])>6 && intval($row['NombreDispoM0'])<14){
                 //$dispoM0="MT";
-                $dispoM0="<select class=\"browser-default\">
+                $dispoM0="<select class=\"browser-default\" title=\"Prod:".$NombreProdM0.",Improd:".$NombreImprodM0.",Conge:".$NombreCongeM0.",Dispo:".$NombreDispoM0."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\" selected>MT</option>
@@ -386,7 +405,7 @@ while ($row = mysql_fetch_assoc($result)) {
             }else{
                 if(intval($row['NombreDispoM0'])>13 && intval($row['NombreDispoM0'])<18){
                     //$dispoM0="4/5";
-                    $dispoM0="<select class=\"browser-default\">
+                    $dispoM0="<select class=\"browser-default\" title=\"Prod:".$NombreProdM0.",Improd:".$NombreImprodM0.",Conge:".$NombreCongeM0.",Dispo:".$NombreDispoM0."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -396,7 +415,7 @@ while ($row = mysql_fetch_assoc($result)) {
                 }else{
                     if(intval($row['NombreDispoM0'])>17 && intval($row['NombreDispoM0'])<24){
                         //$dispoM0="TP";
-                        $dispoM0="<select class=\"browser-default\">
+                        $dispoM0="<select class=\"browser-default\" title=\"Prod:".$NombreProdM0.",Improd:".$NombreImprodM0.",Conge:".$NombreCongeM0.",Dispo:".$NombreDispoM0."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -405,7 +424,7 @@ while ($row = mysql_fetch_assoc($result)) {
 </select>";
                     }else{
                         //$dispoM0="0";
-                        $dispoM0="<select class=\"browser-default\">
+                        $dispoM0="<select class=\"browser-default\" title=\"Prod:".$NombreProdM0.",Improd:".$NombreImprodM0.",Conge:".$NombreCongeM0.",Dispo:".$NombreDispoM0."\">
     <option value=\"0\" selected>0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -423,7 +442,7 @@ while ($row = mysql_fetch_assoc($result)) {
     $dispoM1='';
     if($row['NombreDispoM1']==0){
         //$dispoM1="0";
-        $dispoM1="<select class=\"browser-default\">
+        $dispoM1="<select class=\"browser-default\" title=\"Prod:".$NombreProdM1.",Improd:".$NombreImprodM1.",Conge:".$NombreCongeM1.",Dispo:".$NombreDispoM1."\">
     <option value=\"0\" selected>0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -433,7 +452,7 @@ while ($row = mysql_fetch_assoc($result)) {
     }else{
         if(intval($row['NombreDispoM1'])>0 && intval($row['NombreDispoM1'])<7){
             //$dispoM1="1/5";
-            $dispoM1="<select class=\"browser-default\">
+            $dispoM1="<select class=\"browser-default\" title=\"Prod:".$NombreProdM1.",Improd:".$NombreImprodM1.",Conge:".$NombreCongeM1.",Dispo:".$NombreDispoM1."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\" selected>1/5</option>
     <option value=\"MT\">MT</option>
@@ -443,7 +462,7 @@ while ($row = mysql_fetch_assoc($result)) {
         }else{
             if(intval($row['NombreDispoM1'])>6 && intval($row['NombreDispoM1'])<14){
                 //$dispoM1="MT";
-                $dispoM1="<select class=\"browser-default\">
+                $dispoM1="<select class=\"browser-default\" title=\"Prod:".$NombreProdM1.",Improd:".$NombreImprodM1.",Conge:".$NombreCongeM1.",Dispo:".$NombreDispoM1."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\" selected>MT</option>
@@ -453,7 +472,7 @@ while ($row = mysql_fetch_assoc($result)) {
             }else{
                 if(intval($row['NombreDispoM1'])>13 && intval($row['NombreDispoM1'])<18){
                     //$dispoM1="4/5";
-                    $dispoM1="<select class=\"browser-default\">
+                    $dispoM1="<select class=\"browser-default\" title=\"Prod:".$NombreProdM1.",Improd:".$NombreImprodM1.",Conge:".$NombreCongeM1.",Dispo:".$NombreDispoM1."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -463,7 +482,7 @@ while ($row = mysql_fetch_assoc($result)) {
                 }else{
                     if(intval($row['NombreDispoM1'])>17 && intval($row['NombreDispoM1'])<24){
                         //$dispoM1="TP";
-                        $dispoM1="<select class=\"browser-default\">
+                        $dispoM1="<select class=\"browser-default\" title=\"Prod:".$NombreProdM1.",Improd:".$NombreImprodM1.",Conge:".$NombreCongeM1.",Dispo:".$NombreDispoM1."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -472,7 +491,7 @@ while ($row = mysql_fetch_assoc($result)) {
 </select>";
                     }else{
                         //$dispoM1="0";
-                        $dispoM1="<select class=\"browser-default\">
+                        $dispoM1="<select class=\"browser-default\" title=\"Prod:".$NombreProdM1.",Improd:".$NombreImprodM1.",Conge:".$NombreCongeM1.",Dispo:".$NombreDispoM1."\">
     <option value=\"0\" selected>0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -489,7 +508,7 @@ while ($row = mysql_fetch_assoc($result)) {
     $dispoM2='';
     if($row['NombreDispoM2']==0){
         //$dispoM2="0";
-        $dispoM2="<select class=\"browser-default\">
+        $dispoM2="<select class=\"browser-default\" title=\"Prod:".$NombreProdM2.",Improd:".$NombreImprodM2.",Conge:".$NombreCongeM2.",Dispo:".$NombreDispoM2."\">
     <option value=\"0\" selected>0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -499,7 +518,7 @@ while ($row = mysql_fetch_assoc($result)) {
     }else{
         if(intval($row['NombreDispoM2'])>0 && intval($row['NombreDispoM2'])<7){
             //$dispoM2="1/5";
-            $dispoM2="<select class=\"browser-default\">
+            $dispoM2="<select class=\"browser-default\" title=\"Prod:".$NombreProdM2.",Improd:".$NombreImprodM2.",Conge:".$NombreCongeM2.",Dispo:".$NombreDispoM2."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\" selected>1/5</option>
     <option value=\"MT\">MT</option>
@@ -509,7 +528,7 @@ while ($row = mysql_fetch_assoc($result)) {
         }else{
             if(intval($row['NombreDispoM2'])>6 && intval($row['NombreDispoM2'])<14){
                 //$dispoM2="MT";
-                $dispoM2="<select class=\"browser-default\">
+                $dispoM2="<select class=\"browser-default\" title=\"Prod:".$NombreProdM2.",Improd:".$NombreImprodM2.",Conge:".$NombreCongeM2.",Dispo:".$NombreDispoM2."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\" selected>MT</option>
@@ -519,7 +538,7 @@ while ($row = mysql_fetch_assoc($result)) {
             }else{
                 if(intval($row['NombreDispoM2'])>13 && intval($row['NombreDispoM2'])<18){
                     //$dispoM2="4/5";
-                    $dispoM2="<select class=\"browser-default\">
+                    $dispoM2="<select class=\"browser-default\" title=\"Prod:".$NombreProdM2.",Improd:".$NombreImprodM2.",Conge:".$NombreCongeM2.",Dispo:".$NombreDispoM2."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -529,7 +548,7 @@ while ($row = mysql_fetch_assoc($result)) {
                 }else{
                     if(intval($row['NombreDispoM2'])>17 && intval($row['NombreDispoM2'])<24){
                         //$dispoM2="TP";
-                        $dispoM2="<select class=\"browser-default\">
+                        $dispoM2="<select class=\"browser-default\" title=\"Prod:".$NombreProdM2.",Improd:".$NombreImprodM2.",Conge:".$NombreCongeM2.",Dispo:".$NombreDispoM2."\">
     <option value=\"0\">0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -538,7 +557,7 @@ while ($row = mysql_fetch_assoc($result)) {
 </select>";
                     }else{
                         //$dispoM2="0";
-                        $dispoM2="<select class=\"browser-default\">
+                        $dispoM2="<select class=\"browser-default\" title=\"Prod:".$NombreProdM2.",Improd:".$NombreImprodM2.",Conge:".$NombreCongeM2.",Dispo:".$NombreDispoM2."\">
     <option value=\"0\" selected>0</option>
     <option value=\"1/5\">1/5</option>
     <option value=\"MT\">MT</option>
@@ -556,13 +575,13 @@ while ($row = mysql_fetch_assoc($result)) {
     
     $switch ="<div class=\"togglebutton\">
                 <label>
-                  <input id=\"check".$idConsultant."\" type=\"checkbox\" onclick=\"ToggleConsultant('".$idConsultant."')\" checked>
+                  <input class =\"vistoggle\" name=\"vistoggle\" id=\"check".$idConsultant."\" type=\"checkbox\" onclick=\"ToggleConsultant('".$idConsultant."')\" checked>
                   <span class=\"toggle\"></span>
                 </label>
               </div>";
     echo"<tr class=\"Consultanttr\" id=".$idConsultant."><td align=\"center\" width=\"2%\">".$switch."</td>";
     echo"<td align=\"center\" width=\"2%\">".$grade."</td>";
-    echo"<td align=\"center\" width=\"20%\">".$row['NomPrenom']."</td>";
+    echo"<td align=\"center\" width=\"19%\">".$row['NomPrenom']."</td>";
     echo"<td align=\"center\" width=\"2%\">".$dispoM0."</td>";
     echo"<td align=\"center\" width=\"2%\">".$dispoM1."</td>";
     echo"<td align=\"center\" width=\"2%\">".$dispoM2."</td>";
@@ -585,10 +604,12 @@ while ($row = mysql_fetch_assoc($result)) {
     
     echo"<td align=\"center\" width=\"50%\">".$sortable."</td>";
     
+    echo"<td align=\"center\" width=\"2%\">".$CDM."</td>";
+    
     $action_panel="<button class=\"mdc-fab\" aria-label=\"Add\" data-toggle=\"modal\" data-target=\"#modalLoginForm\" data-id=".$idConsultant.">
   <span class=\"material-icons mdc-fab__icon mdc-fab--mini\">add</span>
 </button>";
-    echo"<td align=\"center\" width=\"20%\">".$action_panel."</td></tr>";
+    echo"<td align=\"center\" width=\"19%\">".$action_panel."</td></tr>";
 }
 
 /*
@@ -612,15 +633,56 @@ while ($row = mysql_fetch_assoc($result)) {
 
 
 
-
 <script>
-
+var toggle_state = 1;
 //to finalise
 function ShowHideConsultants() {
 
-	$("#Consultantslist tr").filter(function() {
-	      $(this).toggle(true)
-	    });
+	if(toggle_state == 0){
+		toggle_state = 1;
+		console.log("toggle state = "+toggle_state)
+		//$("#Consultantslist tr").hide();
+
+
+		    $("#Consultantslist tr").has(".vistoggle:not(:checked)").hide();
+			console.log("new implementation of hide function done");
+		
+		//if($("#Consultantslist tr input[name=vistoggle]").is(':checked')){
+			//$("#Consultantslist tr").show();
+			//$(this).show();
+		//}else{
+			//$("#Consultantslist tr").hide();
+			//$(this).hide();
+		//}
+  //var checkboxes = document.getElementsByName('vistoggle');
+  //var checkboxesChecked = [];
+  // loop over them all
+  //for (var i=0; i<checkboxes.length; i++) {
+     // And stick the checked ones onto an array...
+    // if (checkboxes[i].checked) {
+        //checkboxesChecked.push(checkboxes[i]);
+         //checkboxes[i].show();
+      //   checkboxes[i].style.display = 'block';
+
+     //}else{
+    	 //checkboxes[i].hide();
+         // hide the lorem ipsum text
+        // checkboxes[i].style.display = 'none';
+     //}
+  //}
+
+
+
+
+		//alert("toggle state = "+toggle_state)
+	}else{
+		toggle_state = 0;
+	    $("#Consultantslist tr").show();
+		console.log("toggle state = "+toggle_state)
+	}
+	//$("#Consultantslist tr").filter(function() {
+	  //    $(this).toggle(true)
+	    //});
 	//alert(showall);
 
 	//var x = document.querySelectorAll(".consultanttr");
@@ -635,8 +697,11 @@ function ShowHideConsultants() {
 
 <script>
 function ToggleConsultant(id) {
+
+	if(toggle_state == 1){
+
 	//alert("id="+id);
-	var jsid = "check".concat(id);
+	var jsid = "#check".concat(id);
 	//alert("jsid="+jsid);
 	var trcons = document.getElementById(jsid);
 
@@ -645,13 +710,16 @@ function ToggleConsultant(id) {
 	//alert("trid="+trid);
 	if(jsid.checked == true){
 		$(trid).show();
+		$(jsid).prop('checked', true);
 		//alert("shown");
 		}else{
+			//setTimeout(1000);
+			$(jsid).removeAttr('checked');
 			$(trid).hide();
-			//alert("hidden");
+			console.log(trid+"unchecked");
 		}
 
-	
+	}
 	
 	//alert("You pressed button: " + event.button);
 	//if(event.button=='2'){		
